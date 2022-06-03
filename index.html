@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=728d450581a7ec05aa8a932f2cc16daf"
+    ></script>
     <title>NAVI</title>
   </head>
   <body>
     <header>
-      <h1 class="title">NAVI</h1>
+      <h1 class="header__title">NAVI</h1>
     </header>
-
-    <section class="search">
+    <section class="main">
       <ul class="search__address">
         <li class="search__address__form">
           <label class="search__address__title" for="1">주소</label>
@@ -21,6 +24,7 @@
           <button class="search__add__btn">+</button>
         </li>
       </ul>
+      <div id="map"></div>
     </section>
 
     <footer>
