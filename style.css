@@ -10,6 +10,7 @@
 
   /* Size */
   --padding: 12px;
+  --margin: 6px;
 
   /* Font Size */
   --font-large: 28px;
@@ -61,22 +62,34 @@ footer {
 .search__address__form {
   display: flex;
   align-items: center;
+  margin-bottom: var(--margin);
 }
 
 .search__address__title {
   font-size: var(--font-large);
+  margin-right: var(--margin);
 }
 
-.search__add__btn,
+.search__add__btn {
+  background-color: var(--orange-color);
+  font-size: var(--font-large);
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: var(--margin);
+}
+
 .search__delete__btn {
   background-color: var(--orange-color);
   font-size: var(--font-large);
   border-radius: 8px;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
   cursor: pointer;
-  margin-left: 12px;
+  margin-left: var(--margin);
 }
 
 .copyright {
