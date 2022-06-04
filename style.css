@@ -59,6 +59,12 @@ footer {
   align-items: center;
 }
 
+.search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .search__address {
   width: 450px;
   height: 400px;
@@ -81,7 +87,8 @@ footer {
   margin-right: var(--margin);
 }
 
-.search__add__btn {
+.search__add__btn,
+.search__delete__btn {
   background-color: var(--orange-color);
   font-size: var(--font-large);
   border-radius: 8px;
@@ -92,15 +99,13 @@ footer {
   margin-left: var(--margin);
 }
 
-.search__delete__btn {
+.search__ok__btn {
   background-color: var(--orange-color);
-  font-size: var(--font-large);
+  font-size: var(--font-small);
   border-radius: 8px;
-  width: 30px;
-  height: 30px;
   display: inline-block;
   cursor: pointer;
-  margin-left: var(--margin);
+  padding: 4px;
 }
 
 #map {
