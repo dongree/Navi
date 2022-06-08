@@ -44,6 +44,8 @@ const map = new kakao.maps.Map(container, options);
 const geocoder = new kakao.maps.services.Geocoder();
 const bounds = new kakao.maps.LatLngBounds();
 
+let markers = [];
+let infowindows = [];
 searchBtn.addEventListener('click', () => {
   resolvedValueHandler(addressToLatLng);
 });
@@ -51,8 +53,9 @@ searchBtn.addEventListener('click', () => {
 function resolvedValueHandler(promiseGenerator) {
   const promises = promiseGenerator();
   Promise.all(promises).then(points => {
-    const bounds = handleBound(points);
+    const bounds = getBounds(points);
     map.setBounds(bounds);
+    showInfo(points);
   });
 }
 
@@ -74,15 +77,61 @@ function addressToLatLng() {
   return addressPromise;
 }
 
-function handleBound(points) {
+function getBounds(points) {
   const bounds = new kakao.maps.LatLngBounds();
   for (let i = 0; i < points.length; i++) {
-    // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-    const marker = new kakao.maps.Marker({ position: points[i] });
-    marker.setMap(map);
-
-    // LatLngBounds 객체에 좌표를 추가합니다
     bounds.extend(points[i]);
   }
   return bounds;
+}
+
+function showInfo(points) {
+  if (markers.length > 0) {
+    hideMarkers();
+    hideInfoWindows();
+  }
+  markers = [];
+  infowindows = [];
+  for (let i = 0; i < points.length; i++) {
+    addMarker(points[i]);
+    addInfoWindow(i + 1);
+  }
+  showMarkers();
+  showInfoWindows();
+}
+
+function addMarker(point) {
+  const marker = new kakao.maps.Marker({ position: point });
+  markers.push(marker);
+}
+
+function addInfoWindow(num) {
+  const infowindow = new kakao.maps.InfoWindow({
+    content: `<div style="width:150px;text-align:center;padding:6px 0;">배달지${num}</div>`,
+  });
+  infowindows.push(infowindow);
+}
+
+function showInfoWindows() {
+  for (let i = 0; i < infowindows.length; i++) {
+    infowindows[i].open(map, markers[i]);
+  }
+}
+
+function hideInfoWindows() {
+  for (let i = 0; i < infowindows.length; i++) {
+    infowindows[i].close();
+  }
+}
+
+function showMarkers() {
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+function hideMarkers() {
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
 }
