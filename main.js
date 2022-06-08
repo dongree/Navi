@@ -1,7 +1,10 @@
 'use strict';
 
 const addBtn = document.querySelector('.search__add__btn');
+const deleteBtn = document.querySelector('.search__delete__btn');
 const area = document.querySelector('.search__address');
+
+let addressNum = 2;
 
 addBtn.addEventListener('click', () => {
   const li = document.createElement('li');
@@ -11,24 +14,23 @@ addBtn.addEventListener('click', () => {
   const searchLable = document.createElement('label');
   searchLable.setAttribute('class', 'search__address__title');
   searchLable.setAttribute('for', searchId);
-  searchLable.textContent = '주소';
+  searchLable.textContent = `주소 ${addressNum}`;
+  addressNum += 1;
 
   const searchInput = document.createElement('input');
   searchInput.setAttribute('id', searchId);
   searchInput.setAttribute('type', 'text');
 
-  const deleteBtn = document.createElement('button');
-  deleteBtn.setAttribute('class', 'search__delete__btn');
-  deleteBtn.textContent = '-';
-
   li.appendChild(searchLable);
   li.appendChild(searchInput);
-  li.appendChild(deleteBtn);
   area.appendChild(li);
+});
 
-  deleteBtn.addEventListener('click', () => {
-    area.removeChild(li);
-  });
+deleteBtn.addEventListener('click', () => {
+  if (addressNum > 2) {
+    area.removeChild(area.lastElementChild);
+    addressNum -= 1;
+  }
 });
 
 const searchBtn = document.querySelector('.search__ok__btn');
@@ -107,7 +109,7 @@ function addMarker(point) {
 
 function addInfoWindow(num) {
   const infowindow = new kakao.maps.InfoWindow({
-    content: `<div style="width:150px;text-align:center;padding:6px 0;">배달지${num}</div>`,
+    content: `<div style="width:150px;text-align:center;padding:6px 0;">주소${num}</div>`,
   });
   infowindows.push(infowindow);
 }
