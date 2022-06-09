@@ -76,7 +76,7 @@ footer {
   display: none;
 }
 
-.search__address__form {
+.search__address__li {
   display: flex;
   align-items: center;
   margin-bottom: var(--margin);
@@ -90,13 +90,12 @@ footer {
 .search__add__btn,
 .search__delete__btn {
   background-color: var(--orange-color);
-  font-size: var(--font-large);
+  font-size: var(--font-small);
   border-radius: 8px;
   width: 30px;
   height: 30px;
   display: inline-block;
   cursor: pointer;
-  margin-left: var(--margin);
 }
 
 .search__ok__btn {

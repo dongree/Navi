@@ -2,38 +2,47 @@
 
 const addBtn = document.querySelector('.search__add__btn');
 const deleteBtn = document.querySelector('.search__delete__btn');
-const area = document.querySelector('.search__address');
-
-let addressNum = 2;
+const lists = document.querySelector('.search__address');
 
 addBtn.addEventListener('click', () => {
-  const li = document.createElement('li');
-  li.setAttribute('class', 'search__address__form');
-
-  const searchId = new Date().getTime().toString();
-  const searchLable = document.createElement('label');
-  searchLable.setAttribute('class', 'search__address__title');
-  searchLable.setAttribute('for', searchId);
-  searchLable.textContent = `주소 ${addressNum}`;
-  addressNum += 1;
-
-  const searchInput = document.createElement('input');
-  searchInput.setAttribute('id', searchId);
-  searchInput.setAttribute('type', 'text');
-
-  li.appendChild(searchLable);
-  li.appendChild(searchInput);
-  area.appendChild(li);
+  onAdd();
 });
 
 deleteBtn.addEventListener('click', () => {
-  if (addressNum > 2) {
-    area.removeChild(area.lastElementChild);
-    addressNum -= 1;
-  }
+  onDelete();
 });
 
+function onAdd() {
+  const li = createList();
+  lists.appendChild(li);
+  li.children[1].focus();
+}
+
+let addressNum = 2;
+function createList() {
+  const li = document.createElement('li');
+  li.setAttribute('class', 'search__address__li');
+  const id = new Date().getTime().toString();
+  li.innerHTML = `
+    <label class="search__address__title" for=${id}>주소 ${addressNum}</label>
+    <input id=${id} type="text" />`;
+  addressNum += 1;
+  return li;
+}
+
+function onDelete() {
+  if (addressNum > 2) {
+    lists.removeChild(lists.lastElementChild);
+    addressNum -= 1;
+    lists.lastElementChild.querySelector('input').focus();
+  }
+}
+
 const searchBtn = document.querySelector('.search__ok__btn');
+
+searchBtn.addEventListener('click', () => {
+  resolvedValueHandler(addressToLatLng);
+});
 
 const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 const options = {
@@ -48,9 +57,6 @@ const bounds = new kakao.maps.LatLngBounds();
 
 let markers = [];
 let infowindows = [];
-searchBtn.addEventListener('click', () => {
-  resolvedValueHandler(addressToLatLng);
-});
 
 function resolvedValueHandler(promiseGenerator) {
   const promises = promiseGenerator();
@@ -62,8 +68,8 @@ function resolvedValueHandler(promiseGenerator) {
 }
 
 function addressToLatLng() {
-  const lists = [...area.children];
-  const addresses = lists.map(li => li.querySelector('input').value);
+  const childLists = [...lists.children];
+  const addresses = childLists.map(li => li.querySelector('input').value);
   const addressPromise = addresses.map(address => {
     return new Promise((resolve, reject) => {
       geocoder.addressSearch(address, (result, status) => {
