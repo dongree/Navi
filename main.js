@@ -25,7 +25,7 @@ function createList() {
   const id = new Date().getTime().toString();
   li.innerHTML = `
     <label class="search__address__title" for=${id}>주소 ${addressNum}</label>
-    <input id=${id} type="text" />`;
+    <input class="search__address__input" id=${id} type="text" />`;
   addressNum += 1;
   return li;
 }
