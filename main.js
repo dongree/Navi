@@ -41,7 +41,9 @@ function onDelete() {
 const searchBtn = document.querySelector('.search__ok__btn');
 
 searchBtn.addEventListener('click', () => {
-  resolvedValueHandler(addressToLatLng);
+  const addresses = getAddresses();
+  const coordses = addressToLatLng(addresses);
+  showCoordsesOnMap(coordses);
 });
 
 const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
@@ -58,8 +60,7 @@ const bounds = new kakao.maps.LatLngBounds();
 let markers = [];
 let infowindows = [];
 
-function resolvedValueHandler(promiseGenerator) {
-  const promises = promiseGenerator();
+function showCoordsesOnMap(promises) {
   Promise.all(promises).then(points => {
     const bounds = getBounds(points);
     map.setBounds(bounds);
@@ -67,22 +68,27 @@ function resolvedValueHandler(promiseGenerator) {
   });
 }
 
-function addressToLatLng() {
-  const childLists = [...lists.children];
-  const addresses = childLists.map(li => li.querySelector('input').value);
-  const addressPromise = addresses.map(address => {
+function addressToLatLng(addresses) {
+  const addressesPromise = addresses.map(address => {
     return new Promise((resolve, reject) => {
       geocoder.addressSearch(address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
           resolve(coords);
         } else {
-          reject(status);
+          reject(new Error('not ok'));
         }
       });
     });
   });
-  return addressPromise;
+  return addressesPromise;
+}
+
+function getAddresses() {
+  const childLists = [...lists.children];
+  return childLists
+    .map(li => li.querySelector('input').value)
+    .filter(address => address !== '');
 }
 
 function getBounds(points) {
