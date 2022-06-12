@@ -39,9 +39,16 @@ function onDelete() {
 }
 
 const searchBtn = document.querySelector('.search__ok__btn');
+const errorMessage = document.querySelector('.search__error__msg');
 
 searchBtn.addEventListener('click', () => {
   const addresses = getAddresses();
+  if (addresses.length === 0) {
+    errorMessage.style.visibility = 'visible';
+    return;
+  } else if (errorMessage.style.visibility == 'visible') {
+    errorMessage.style.visibility = 'hidden';
+  }
   const coordses = addressToLatLng(addresses);
   showCoordsesOnMap(coordses);
 });

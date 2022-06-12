@@ -123,6 +123,13 @@ header {
   font-size: var(--font-medium);
 }
 
+.search__error__msg {
+  font-size: var(--font-micro);
+  font-weight: bold;
+  color: var(--red-color);
+  visibility: hidden;
+}
+
 .map__container {
   display: flex;
   width: 70%;
@@ -183,6 +190,10 @@ footer {
 
   .search__address__input {
     font-size: var(--font-mobile-medium);
+  }
+
+  .search__error__msg {
+    font-size: var(--font-mobile-micro);
   }
 
   .map__container {
