@@ -47,6 +47,7 @@ header {
   height: 7%;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: var(--orange-color);
   padding: var(--padding);
 }
@@ -150,6 +151,7 @@ footer {
   height: 7%;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: var(--orange-color);
   padding: var(--padding);
 }
@@ -203,6 +205,18 @@ footer {
 
   .footer__title {
     font-size: var(--font-mobile-micro);
+  }
+}
+
+@media screen and (max-height: 25rem) {
+  header {
+    display: none;
+  }
+  .main {
+    height: 100%;
+  }
+  footer {
+    display: none;
   }
 }
 /* 
